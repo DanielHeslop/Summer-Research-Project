@@ -1,0 +1,151 @@
+@import url("//fonts.googleapis.com/css?family=Audiowide|Cabin:400,700");
+/* text */
+h1 {
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 4.1;
+    color: #05386B; 
+    font-size: 50px;
+    text-align: center;
+}
+h2 {
+    font-family: 'Helvetica', cursive;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #05386B;
+    font-size: 20px;
+    text-align: center;
+}
+h2.typed {
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #05386B;
+    font-size: 20px;
+    text-align: center;
+}
+h3 {
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1;
+    color: black;
+    font-size: 30px;
+    text-align: center;
+}
+h4 {
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1;
+    color:  #ECECEC;
+    font-size: 10px;
+    text-align: center;
+}
+h4.setup {
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1;
+    color:  #05386B;
+    font-size: 10px;
+    text-align: center;
+}
+h5 {
+    font-family: 'Helvetica', cursive;
+    font-weight: 500;
+    line-height: 0.8;
+    color: black;
+    font-size: 6px;
+    text-align: center;
+}
+h4.foot {
+    font-family: 'Helvetica', cursive;
+    font-weight: 500;
+    line-height: 1;
+    color: #778899;
+    font-size: 10px;
+    text-align: center;
+}
+h2.setup{
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #05386B;
+    font-size: 20px;
+    text-align: center;
+}
+h2.pots{
+    font-family: 'Audiowide', cursive;
+    font-weight: 500;
+    line-height: 1.1;
+    color:   #ECECEC;
+    font-size: 25px;
+    text-align: center;
+}
+a {
+    color: black;
+}
+/* layout of page */
+body {
+    background-color: #FFFFFF;
+}
+div.mid {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* buttons for each game on main page and data download */
+.penguin_btn{
+    background-color: #90CCF4;
+    height: 60%;
+    width: 25%;
+    border: 10px dashed grey;
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    margin-right: -80%;
+    transform: translate(-50%, -50%)
+}
+.download_penguin{
+    background-color:  #F78888;
+    border: 5px dashed grey;
+}
+.pokemon_btn{
+    background-color: #F3D250;
+    height: 60%;
+    width: 25%;
+    border: 10px dashed grey;
+    position: absolute;
+    top: 60%;
+    left: 70%;
+    margin-right: -80%;
+    transform: translate(-50%, -50%)
+}
+.download_pokemon{
+    background-color:  #F3D250;
+    border: 5px dashed grey;
+}
+
+/* hover over buttons */
+.container {
+  width: auto;
+  height: auto;
+  overflow: hidden;
+}
+.container:hover {
+  opacity: 1;
+}
+/* #########################*/
+/* hidden pages */
+/* back buttons */
+.btn-primary {
+    background-color:  #05386B;
+    color: white;
+    opacity: 0.7;
+    border: 2px solid;
+}
+.btn-primary:hover {
+  background-color: grey; 
+}
+/* #########################*/
+
+    

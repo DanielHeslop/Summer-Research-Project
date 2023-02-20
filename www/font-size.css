@@ -1,0 +1,37 @@
+
+/*----- Font size -----*/
+body {
+	font-size: 16px;
+}
+.topicsList .topic {
+    font-size: 18px;
+}
+p.caption {
+   font-size: 0.6em;
+}
+
+.header {}
+  
+
+
+
+
+
+/*----- Tip box -----*/
+.tip {
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid #136CB9;
+  background-color: #136CB9;
+  background-color: rgba(19, 108, 185, 0.1);
+  color: #2C5577;
+}
+
+.infobox {
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid #868e96;
+  background-color: #868e96;
+  background-color: rgba(134, 142, 150, 0.1);
+  color: #2F4F4F;
+}
