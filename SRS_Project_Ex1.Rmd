@@ -1,0 +1,587 @@
+---
+title: "BIOSCI220: Exercise"
+tutorial:
+  id: "Pokemon-exercise"
+  version: 1.0
+author: ""
+date: ""
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    css: "www/font-size.css"
+runtime: shiny_prerendered
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+
+```{=html}
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+```
+
+```{r setup, include=FALSE}
+# packages
+library(tidyverse)
+library(sortable)
+library(exams)
+library(exams2learnr)
+#remotes::install_github("rstudio/learnr")
+library(learnr)
+#remotes::install_github("rstudio/gradethis")
+library(gradethis)
+gradethis_setup()
+#devtools::install_github("rundel/learnrhash")
+library(learnrhash)
+
+# tutorial options
+tutorial_options(
+  # code running in exercise times out after 30 seconds
+  exercise.timelimit = 30, 
+  # use gradethis for checking
+  exercise.checker = gradethis::grade_learnr
+  )
+
+# make Pokemon data frame globally available
+pokemon <- read_csv("https://raw.githubusercontent.com/STATS-UOA/databunker/master/data/pokemon.csv")
+
+# hide non-exercise code chunks
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+#gradethis::gradethis_setup()
+
+knitr::clean_cache()
+```
+
+## **Nau mai, haere mai**
+
+This exercise is designed to help you put your R skills to the test! Unlike in the tutorial, the following questions require you to code from scratch. Good luck!
+
+### **Errors**
+
+If you encounter errors along the way, I recommend you read the error message and try solve it using one of the following methods where appropriate:
+
+ * Searching or asking questions on [Stack Overflow](https://stackoverflow.com) or [RStudio Community](https://community.rstudio.com),
+ * Referencing the help section in `R`,
+ * A simple Google search of the error message (often the best method!). 
+
+### **Reference material**
+
+This application is designed to be used alongside [the BIOSCI220 course guide](https://stats-uoa.github.io/BIOSCI220/) so please refer back to the guide for a more in-depth look into each of the topics.
+
+### **Further help**
+
+If you have any questions regarding the material in this tutorial, please post them on Piazza (link)!
+
+------------------------------------------------------------------------
+
+This app was developed by Daniel Heslop as part of a 2022/3 summer research project.
+
+------------------------------------------------------------------------
+
+## **The pokémon dataset**
+
+```{r Pokemon, fig.margin = TRUE, echo = FALSE, fig.width=5, out.width = "100%", out.height= "100%"}
+knitr::include_graphics("www/img/pokemon2.png")
+```
+
+This dataset includes 898 Pokémon, and includes information on their number, name, first and second type, and basic stats: HP, Attack, Defense, Special Attack, Special Defense, Speed, Generation and Legendary Status. These variables are defined as follows:
+
+| Variable     | Description                                                                                                                       |
+|:-------------------------|:---------------------------------------------|
+| `number`     | ID for each Pokémon                                                                                                               |
+| `name`       | Name of each Pokémon                                                                                                              |
+| `type1`      | All Pokémon and their moves are assigned certain types. Each type has several strengths and weaknesses in both attack and defense |
+| `type2`      | Some Pokémon are dual type, and thus have 2                                                                                       |
+| `total`      | Sum of all stats that come after this. A general guide to how strong a Pokémon is                                                 |
+| `hp`         | Hit points, or health, defines how much damage a Pokémon can withstand before fainting                                            |
+| `attack`     | The base modifier for normal attacks (eg. Scratch, Punch)                                                                         |
+| `defense`    | The base damage resistance against normal attacks                                                                                 |
+| `sp_attack`  | Special attack. The base modifier for special attacks (e.g. fire blast, bubble beam)                                              |
+| `sp_defense` | Special defense. The base damage resistance against special attacks                                                               |
+| `speed`      | Determines which Pokémon attacks first each round                                                                                 |
+| `generation` | The gaming generation the Pokémon first made its appearance                                                                       |
+| `legendary`  | Whether or not the Pokémon has legendary status. Legendary Pokémon are extremely rare and often very powerful Pokémon             |
+
+This dataset is about the Pokémon games (NOT Pokémon cards or Pokémon Go). If you are interested, the dataset is available as a CSV file [here](https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6) (to download click `Download ZIP`).
+
+------------------------------------------------------------------------
+
+## **Initial set up**
+
+<br>
+
+#### **Load packages**
+
+Before we get started, we need to load any packages we think we may need. `tidyverse` is definitely going to be helpful for us. 
+
+```{r Q1, echo=FALSE}
+question("1. Which of the following commands loads `tidyverse` for use in our current session?",
+  answer("install(tidyverse)"),
+  answer("library(tidyverse)", correct = TRUE),
+  answer("install.packages('tidyverse')", message = "This is something we only need to call once to install `tidyverse` onto our computer. If we want to then load the package we need to use a different line of code."),
+  answer("download(tidyverse)"),
+  allow_retry = TRUE
+)
+```
+
+<br>
+
+#### **Read in the data**
+
+2. Write code to read in our `pokemon` dataset. Assign it to an object called `pokemon`. *Note: The file path for the dataset is `Data/pokemon.csv`*
+
+```{r Q2, exercise = TRUE}
+
+```
+
+```{r Q2-solution}
+pokemon <- read_csv("Data/pokemon.csv")
+```
+
+```{r Q2-check}
+grade_this_code()
+```
+
+------------------------------------------------------------------------
+
+## **Exploratory data analysis**
+
+3. Now that we've created our dataset object let's go ahead and view it.
+
+```{r Q3-setup}
+pokemon <- read_csv("Data/pokemon.csv")
+```
+
+```{r Q3, exercise = TRUE}
+
+```
+
+```{r Q3-solution}
+
+```
+
+```{r Q3-check}
+grade_result(
+  pass_if(~identical(.result, pokemon))
+)
+```
+
+<br>
+
+Looking at the dataset, we seem to have lots of `NA`'s. Let's get a better look.
+
+4. Do you remember a function that allows us to visualise missing values in a matrix of `logical` values? Let's use it below.
+
+```{r Q4, exercise = TRUE}
+
+```
+
+```{r Q4-check}
+grade_result(
+  pass_if(~identical(.result, is.na(pokemon)))
+)
+```
+
+<br>
+
+In this case, all the missing values appear to be associated with the `type2` variable. Reading the description for this variable in the *pokemon dataset* section, we learn that `type2` refers to pokemon that are "dual type" and that only some can be classified as such. It seems, therefore, that in this case the `NA`'s are meaningful in that they tell us which pokemon only have a single "type". We should not remove them, therefore. 
+
+Let's now quickly visualise some of the data to see what we're working with.
+
+5. Plot `total` against `type1`. *Note: While it's totally fine to otherwise use `ggplot2` for exploratory data visualisation, do not use it for these questions.*
+
+```{r Q5, exercise = TRUE}
+
+```
+
+```{r Q5-check}
+grade_result(
+  pass_if(~identical(.result, boxplot(total ~ type1, data = pokemon))))
+```
+
+<br>
+
+A quick look tells us that there is not much variation in the distribution of the Pokemon's total stats between their first "type". We can see three anomalies, however. There, appears to be an outlier in the top right corner and two of the types show very small distributions. 
+
+Let's continue exploring the data.
+
+6. Plot `attack` against `defense`. 
+
+```{r Q6, exercise = TRUE}
+
+```
+
+```{r Q6-check}
+grade_result(
+  pass_if(~identical(.result, plot(attack ~ defense, data = pokemon))))
+```
+
+<br>
+
+Interesting. It appears that as `attack` and `defense` increase, so does the variance in the data. This is what we call non-constant scatter, and it can have serious implications if we want to apply certain statistical models to the data (see section 5.3 in your course book for more). Just as well we spotted it. 
+
+Moving on.
+
+7. Using `table()`, count the number of Pokemon that are classified as `legendary` and those that aren't then assign this to an object called `legend_counts`.
+
+```{r Q7-setup}
+legend_counts <- table(pokemon$legendary)
+```
+
+```{r Q7, exercise = TRUE}
+
+```
+
+```{r Q7-check}
+grade_result(
+  pass_if(~identical(.result, legend_counts)))
+```
+
+<br>
+
+8. Now, plot these counts.
+
+```{r Q8-setup}
+legend_counts <- table(pokemon$legendary)
+```
+
+```{r Q8, exercise = TRUE}
+
+```
+
+```{r Q8-check}
+grade_result(
+  pass_if(~identical(.result, barplot(legend_counts))))
+```
+
+<br>
+
+The majority of Pokemon are non-legendary.
+
+------------------------------------------------------------------------
+
+## **Data wrangling & Visualisation**
+
+Let's now look at ways we can manipulate the data to find interesting insights that are otherwise largely hidden from us. Then, let's use `ggplot2` to effectively visualise the info we extract. 
+
+9. First, let's view the top 10 Pokemon in order of most powerful to least powerful in terms of `total`.  In order to achieve this and set it up for visualisation, we need to go through a few steps:
+
+    1) narrow down the variables to just `name` and `total`,
+    2) order `total` in descending order,
+    3) do a Google search to see what `tidyverse` functions there are that filter the top 10 values, then apply it, then
+    4) consult Google to find a `tidyverse` function we can use to change `name` from a character type (`<chr>`) to a factor (`<fct>`). Be sure to keep our variable name as `name`.
+
+Then assign this code to an object called `top_10_pokemon`.
+    
+*Hint: Run the code after each step to see what you are doing*
+
+```{r Q9-setup}
+top_10_pokemon <- pokemon %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q9, exercise = TRUE}
+
+```
+
+```{r Q9-check}
+grade_result(
+  pass_if(~identical(.result, top_10_pokemon)))
+```
+
+<br>
+
+10. Using our newly created object, plot `total` against `name`. Don't make any changes to the default plot for now. *Hint: You will need to use `stat = "identity"` somewhere in your code.*
+
+```{r Q10-setup}
+top_10_pokemon <- pokemon %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q10, exercise = TRUE}
+
+```
+
+```{r Q10-check}
+grade_result(
+  pass_if(~identical(.result, top_10_pokemon %>% 
+  ggplot(aes(x = name, y = total))+
+  geom_bar(stat = "identity"))))
+```
+
+<br>
+
+Let's try make this graph a bit more visually appealing. 
+
+11. Change the theme to `bw`.
+
+```{r Q11-setup}
+top_10_pokemon <- pokemon %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q11, exercise = TRUE}
+
+```
+
+```{r Q11-check}
+grade_result(
+  pass_if(~identical(.result, top_10_pokemon %>% 
+  ggplot(aes(x = name, y = total))+
+  geom_bar(stat = "identity") +
+  theme_bw())))
+```
+
+<br>
+
+The most obvious thing we need to change next is the x-axis labels. At the moment they are unreadable! 
+
+12. Do a Google search to see if `ggplot2` has anything that will allow us to change the angle of the x-axis labels. Once you have found it, add it as a new line of code and change the angle to `15` and set the vertical adjustment to `0.5`.
+
+```{r Q12-setup}
+top_10_pokemon <- pokemon %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q12, exercise = TRUE}
+
+```
+
+```{r Q12-check}
+grade_result(
+  pass_if(~identical(.result, top_10_pokemon %>% 
+  ggplot(aes(x = name, y = total))+
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 15, vjust = 0.5)))))
+```
+
+<br>
+
+Great work! Let's make one final adjustment. 
+
+13. Change the x- and y-axis titles to `Pokemon` and `Total`, respectively. 
+
+```{r Q13-setup}
+top_10_pokemon <- pokemon %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q13, exercise = TRUE}
+
+```
+
+```{r Q13-check}
+grade_result(
+  pass_if(~identical(.result, top_10_pokemon %>% 
+  ggplot(aes(x = name, y = total))+
+  geom_bar(stat = "identity") +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 15, vjust = 0.5)) +
+  labs(x = "Pokemon", y = "Total"))))
+```
+
+<br>
+
+A quick look at the dataset reveals that these Pokemon are all classified as `legendary`. Perhaps it's not surprising that all of these Pokemon happen to have legendary status. But which are the most powerful 10 non-legendary Pokemon?
+
+14. Find the top 10 most powerful non-legendary Pokemon in descending order. Then, change `name` to a factor variable. Assign this to an object called `top_10_nonlegendary`.
+
+```{r Q14-setup}
+top_10_nonlegendary <- pokemon %>%
+  filter(legendary == F) %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q14, exercise = TRUE}
+
+```
+
+```{r Q14-check}
+grade_result(
+  pass_if(~identical(.result, top_10_nonlegendary)))
+```
+
+<br>
+
+15. Plot `total` against `name`. Apply the changes we made last time, however, this time change the theme to `classic` and call the x-axis `Non-legendary Pokemon`.
+
+
+```{r Q15-setup}
+top_10_nonlegendary <- pokemon %>%
+  filter(legendary == F) %>% 
+  select(name, total) %>% 
+  arrange(-total) %>% 
+  top_n(10) %>% 
+  mutate(name = as_factor(name))
+```
+
+```{r Q15, exercise = TRUE}
+
+```
+
+```{r Q15-check}
+grade_result(
+  pass_if(~identical(.result, top_10_nonlegendary %>% 
+  ggplot(aes(x = name, y = total))+
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 15, vjust = 0.5)) +
+  labs(x = "Non-legendary Pokemon", y = "Total"))))
+```
+
+<br>
+
+Earlier, we noted that our `NA` values contain meaningful information. An interesting question that follows from this is: are those Pokemon with a dual type more powerful, on average? Let's find out.
+
+16. This question requires multiple steps to figure out:
+  
+    1) we need to use a function that will allow us to compare the different `type2` groups,
+    2) we then need to find the mean (call it `avg` ) for each of these groups,
+    3) lastly, we need to arrange the means in descending order.
+    
+Assign this code to an object called `dual_power`.
+
+```{r Q16-setup}
+dual_power <- pokemon %>% 
+  group_by(type2) %>% 
+  summarise(avg = mean(total)) %>% 
+  arrange(-avg)
+```
+
+```{r Q16, exercise = TRUE}
+
+```
+
+```{r Q16-check}
+grade_result(
+  pass_if(~identical(.result, dual_power)))
+```
+
+<br>
+
+17. In the code chunk below, plot `avg` against `type2`. Then have a play around yourself and design the plot you like!
+
+
+```{r Q17-setup}
+dual_power <- pokemon %>% 
+  group_by(type2) %>% 
+  summarise(avg = mean(total)) %>% 
+  arrange(-avg)
+```
+
+```{r Q17, exercise = TRUE}
+
+```
+
+<br>
+
+18. Now let's look at which dual type groupings (i.e. which specific `type1` and `type2` pairings) are the most powerful, on average. Assign the code to an object called `grouped_types`.
+
+```{r Q18-setup}
+grouped_types <- pokemon %>% 
+  group_by(type1, type2) %>% 
+  summarise(avg = mean(total)) %>% 
+  arrange(-avg)
+```
+
+```{r Q18, exercise = TRUE}
+
+```
+
+```{r Q18-check}
+grade_result(
+  pass_if(~identical(.result, grouped_types)))
+```
+
+<br>
+
+Say we now want to view the previous result in a matrix format to make it easier to see all the `total` values for each pairing. 
+
+19. Take the previous result and rearrange it from a long to wide format.
+
+```{r Q19-setup}
+grouped_types <- pokemon %>% 
+  group_by(type1, type2) %>% 
+  summarise(avg = mean(total)) %>% 
+  arrange(-avg)
+```
+
+```{r Q19, exercise = TRUE}
+
+```
+
+```{r Q19-check}
+grade_result(
+  pass_if(~identical(.result, pokemon %>% 
+  group_by(type1, type2) %>% 
+  summarise(avg = mean(total)) %>% 
+  arrange(-avg) %>% 
+  pivot_wider(names_from = "type2", values_from = "avg"))))
+```
+
+<br>
+
+Nicely done! Let's finish up by using `ggplot2` to make some other plots.
+
+20. Plot `sp_defense` against `sp_attack`. Then, change the theme to `minimal` and rename the axis titles to `Special Attack` and `Special Defense`, respectively. 
+
+```{r Q20, exercise = TRUE}
+pokemon %>% 
+  ggplot(aes(x = legendary, y = total)) +
+  geom_point()
+```
+
+```{r Q20-check}
+grade_result(
+  pass_if(~identical(.result, pokemon %>% 
+  ggplot(aes(x = sp_attack, y = sp_defense)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Special Attack", y = "Special Defense"))))
+```
+
+<br>
+
+21. Plot `total` against `legendary`. Use whatever plot you think necessary. Also create a style that you think will make an effective visualisation. *Hint: If you come across an error, Google it. But also think about the types of variables you are using.*
+
+```{r Q21, exercise = TRUE}
+
+```
+
+<br>
+
+This concludes the exercise. Well done on completing it. Hopefully you are now comfortable with your coding skills to go ahead and successfully complete the rest of the course!
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
